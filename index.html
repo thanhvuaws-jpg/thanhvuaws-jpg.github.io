@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Đàm Thanh Vũ | Junior Cloud & DevOps Engineer</title>
+    
+    <!-- Favicon (Icon Tab Trình Duyệt) -->
+    <link rel="icon" type="image/jpeg" href="./avatar.jpg">
+    
+    <!-- Open Graph / Meta -->
+    <meta property="og:title" content="Đàm Thanh Vũ | Junior Cloud & DevOps Engineer">
+    <meta property="og:description" content="Portfolio của Đàm Thanh Vũ - Sinh viên đam mê Cloud, Linux & AWS.">
+    <meta property="og:image" content="https://avatars.githubusercontent.com/u/10000000?v=4">
+    <meta property="og:type" content="website">
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: { sans: ['Inter', 'sans-serif'] },
+                    colors: {
+                        primary: '#10b981', // Màu xanh lá mạ (hợp với GreenNode)
+                        darkbg: '#0f172a',
+                        darkcard: '#1e293b'
+                    },
+                    animation: {
+                        'marquee-left': 'marqueeLeft 25s linear infinite',
+                        'marquee-right': 'marqueeRight 25s linear infinite',
+                    },
+                    keyframes: {
+                        marqueeLeft: {
+                            '0%': { transform: 'translateX(0%)' },
+                            '100%': { transform: 'translateX(-50%)' }
+                        },
+                        marqueeRight: {
+                            '0%': { transform: 'translateX(-50%)' },
+                            '100%': { transform: 'translateX(0%)' }
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        /* Animation chuyển trang */
+        .page-section {
+            display: none;
+            animation: fadeIn 0.4s ease-in-out;
+        }
+        .page-section.active {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        /* Ẩn thanh cuộn cho khu vực marquee */
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* Grid Background Pattern */
+        .bg-grid-pattern {
+            background-image: radial-gradient(#cbd5e1 1.5px, transparent 1.5px);
+            background-size: 32px 32px;
+        }
+        .dark .bg-grid-pattern {
+            background-image: radial-gradient(#334155 1.5px, transparent 1.5px);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 text-gray-800 dark:bg-darkbg dark:text-gray-200 transition-colors duration-300 min-h-screen flex flex-col">
+
+    <!-- Header & Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 dark:bg-darkbg/90 backdrop-blur-md shadow-sm border-b border-gray-200 dark:border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex items-center justify-between h-16">
+                <!-- Logo -->
+                <a href="#home" class="flex-shrink-0 cursor-pointer hover:opacity-80 transition-opacity">
+                    <span class="text-xl font-bold text-primary">Thanh Vũ</span>
+                </a>
+                
+                <!-- Desktop Menu -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-2">
+                        <a href="#home" data-target="home" class="nav-btn active px-4 py-2 rounded-md text-sm font-medium transition-colors hover:text-primary dark:hover:text-primary text-primary">Trang Chủ</a>
+                        <a href="#resume" data-target="resume" class="nav-btn px-4 py-2 rounded-md text-sm font-medium transition-colors hover:text-primary dark:hover:text-primary text-gray-600 dark:text-gray-300">Học Vấn & Kỹ Năng</a>
+                        <a href="#projects" data-target="projects" class="nav-btn px-4 py-2 rounded-md text-sm font-medium transition-colors hover:text-primary dark:hover:text-primary text-gray-600 dark:text-gray-300">Dự Án</a>
+                        <a href="#contact" data-target="contact" class="nav-btn px-4 py-2 rounded-md text-sm font-medium transition-colors hover:text-primary dark:hover:text-primary text-gray-600 dark:text-gray-300">Liên Hệ</a>
+                    </div>
+                </div>
+
+                <!-- Theme Toggle & Mobile Menu Btn -->
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors">
+                        <i id="theme-toggle-dark-icon" class="fa-solid fa-moon text-gray-700 dark:text-gray-300 hidden"></i>
+                        <i id="theme-toggle-light-icon" class="fa-solid fa-sun text-gray-700 dark:text-gray-300 hidden"></i>
+                    </button>
+                    <button class="md:hidden p-2 text-gray-600 dark:text-gray-300" onclick="document.getElementById('mobile-menu').classList.toggle('hidden')">
+                        <i class="fa-solid fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div class="md:hidden hidden bg-white dark:bg-darkbg border-b border-gray-200 dark:border-gray-800" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 flex flex-col">
+                <a href="#home" data-target="home" onclick="toggleMobileMenu()" class="nav-btn text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-800 text-primary">Trang Chủ</a>
+                <a href="#resume" data-target="resume" onclick="toggleMobileMenu()" class="nav-btn text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300">Học Vấn & Kỹ Năng</a>
+                <a href="#projects" data-target="projects" onclick="toggleMobileMenu()" class="nav-btn text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300">Dự Án</a>
+                <a href="#contact" data-target="contact" onclick="toggleMobileMenu()" class="nav-btn text-left px-3 py-2 rounded-md text-base font-medium hover:bg-gray-100 dark:hover:bg-gray-800 text-gray-600 dark:text-gray-300">Liên Hệ</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT AREA -->
+    <main class="flex-grow pt-20 pb-12">
+
+        <!-- ================= PAGE 1: TRANG CHỦ ================= -->
+        <section id="home" class="page-section active relative min-h-[90vh] flex items-center overflow-hidden">
+            <!-- Background Decoration (Lưới chấm & Blob màu) -->
+            <div class="absolute inset-0 bg-grid-pattern opacity-50 dark:opacity-20 z-0"></div>
+            <div class="absolute top-20 left-10 w-96 h-96 bg-emerald-400 rounded-full mix-blend-multiply filter blur-[120px] opacity-30 dark:opacity-10 z-0"></div>
+            <div class="absolute bottom-20 right-10 w-96 h-96 bg-blue-400 rounded-full mix-blend-multiply filter blur-[120px] opacity-30 dark:opacity-10 z-0 hover:scale-110 transition-transform duration-1000"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10 mt-16 md:mt-0">
+                <div class="flex flex-col-reverse md:flex-row items-center w-full gap-12 py-12">
+                <div class="md:w-3/5 text-center md:text-left">
+                    <div class="inline-block px-4 py-2 rounded-full bg-primary/10 text-primary font-semibold text-sm mb-6 border border-primary/20">
+                        <i class="fa-solid fa-cloud mr-2"></i>Đam mê Cloud & DevOps
+                    </div>
+                    <h1 class="text-4xl md:text-6xl font-bold text-gray-900 dark:text-white mb-4 leading-tight">
+                        Xin chào, tôi là <br><span class="text-primary">Đàm Thanh Vũ</span>
+                    </h1>
+                    <h2 class="text-2xl md:text-3xl font-medium text-emerald-500 dark:text-emerald-400 mb-6 min-h-[40px] flex items-center justify-center md:justify-start font-mono">
+                        > <span id="typing-text" class="ml-2"></span><span class="animate-pulse text-gray-800 dark:text-gray-200">_</span>
+                    </h2>
+                    <p class="text-lg text-gray-600 dark:text-gray-400 mb-8 leading-relaxed max-w-2xl mx-auto md:mx-0 text-justify sm:text-left">
+                        Sinh viên năm 3 ngành CNTT tại VAA. Nền tảng vững chắc về hệ thống <b>Linux</b>, <b>ảo hóa</b> và quản trị <b>Server</b>. Định hướng trở thành một <b>Cloud / DevOps Engineer</b> mong muốn tự động hóa quy trình và xây dựng các hệ thống có tính mở rộng cao.
+                    </p>
+                    <div class="flex flex-col sm:flex-row space-y-3 justify-center md:justify-start mb-2">
+                        <div class="flex flex-col sm:flex-row gap-3 w-full sm:w-auto">
+                            <a href="#projects" class="bg-primary hover:bg-emerald-600 text-white px-6 py-3 rounded-lg font-medium transition-all shadow-lg shadow-emerald-500/30 flex items-center justify-center w-full sm:w-auto">
+                                <i class="fa-solid fa-layer-group mr-2"></i> Xem Dự Án
+                            </a>
+                            <a href="https://vtkt.online" target="_blank" class="border border-gray-300 dark:border-gray-600 hover:border-primary dark:hover:border-primary px-6 py-3 rounded-lg font-medium transition-all flex items-center justify-center text-gray-700 dark:text-gray-200 w-full sm:w-auto cursor-pointer border-2 bg-transparent">
+                                <i class="fa-solid fa-globe text-primary mr-2"></i> vtkt.online
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <!-- Social Links Mini -->
+                    <div class="mt-8 flex items-center justify-center md:justify-start space-x-5">
+                        <span class="text-sm text-gray-500 font-medium hidden sm:inline-block">Kết nối với tôi:</span>
+                        <a href="https://github.com/thanhvuaws-jpg" target="_blank" class="text-gray-400 hover:text-gray-900 dark:hover:text-white transition-colors cursor-pointer">
+                            <i class="fa-brands fa-github text-2xl"></i>
+                        </a>
+                        <a href="mailto:thanhvuaws@gmail.com" class="text-gray-400 hover:text-emerald-500 transition-colors cursor-pointer">
+                            <i class="fa-solid fa-envelope text-2xl"></i>
+                        </a>
+                        <a href="tel:+84856761038" class="text-gray-400 hover:text-emerald-500 transition-colors cursor-pointer">
+                            <i class="fa-solid fa-phone text-2xl"></i>
+                        </a>
+                    </div>
+                </div>
+                <!-- Khu vực Avatar với hiệu ứng bớt đơn điệu -->
+                <div class="md:w-2/5 flex justify-center relative py-4">
+                    <!-- Hình nền phát sáng (Glow Blob) -->
+                    <div class="absolute inset-0 bg-primary/20 rounded-full blur-3xl scale-75 animate-pulse"></div>
+                    
+                    <!-- Khung ảnh chính -->
+                    <div class="relative w-64 h-64 md:w-80 md:h-80 rounded-full border-4 border-white dark:border-darkcard shadow-2xl overflow-hidden bg-gray-200 flex items-center justify-center z-10">
+                        <img src="./avatar.jpg" alt="Đàm Thanh Vũ" class="object-cover w-full h-full" onerror="this.src='https://ui-avatars.com/api/?name=Thanh+Vu&background=10b981&color=fff&size=512'">
+                    </div>
+                    
+                    <!-- Icon lơ lửng (Floating Badges) -->
+                    <div class="absolute top-4 right-2 md:-right-6 bg-white dark:bg-darkcard p-3 rounded-full shadow-xl border border-gray-100 dark:border-gray-800 z-20 animate-bounce" style="animation-duration: 3.5s;">
+                        <i class="fa-brands fa-aws text-3xl text-orange-500"></i>
+                    </div>
+                    <div class="absolute bottom-8 left-2 md:-left-6 bg-white dark:bg-darkcard p-3 rounded-full shadow-xl border border-gray-100 dark:border-gray-800 z-20 animate-bounce" style="animation-duration: 4.2s;">
+                        <i class="fa-brands fa-linux text-3xl text-gray-800 dark:text-gray-200"></i>
+                    </div>
+                    <!-- Icon mở rộng lấp khoảng trống -->
+                    <div class="absolute top-1/2 left-0 md:-left-12 bg-white dark:bg-darkcard p-2 rounded-full shadow-xl border border-gray-100 dark:border-gray-800 z-20 animate-bounce cursor-pointer hover:border-blue-500 transition-colors" style="animation-duration: 3.8s;">
+                        <i class="fa-brands fa-docker text-2xl text-blue-500"></i>
+                    </div>
+                    
+                    <!-- Huy hiệu Thành tích (Badge) ẩn trên mobile cực nhỏ để tránh vỡ viền -->
+                    <div class="absolute top-12 -left-4 sm:-left-8 md:-left-16 bg-white dark:bg-darkcard px-3 sm:px-4 py-2 rounded-xl shadow-xl border border-gray-100 dark:border-gray-800 z-30 flex items-center gap-2 sm:gap-3 hover:-translate-y-1 transition-transform cursor-pointer scale-90 sm:scale-100 origin-left">
+                        <div class="bg-orange-100 dark:bg-orange-900/30 p-1.5 sm:p-2 rounded-full text-orange-500">
+                            <i class="fa-solid fa-fire text-sm sm:text-base"></i>
+                        </div>
+                        <div class="text-left">
+                            <p class="text-[10px] text-gray-500 uppercase tracking-wider font-bold">AWS FCJ</p>
+                            <p class="text-sm font-bold text-gray-900 dark:text-white leading-tight">Elite Member</p>
+                        </div>
+                    </div>
+
+                    <!-- Cửa sổ Terminal Mini lấp góc dưới (ẩn hoàn toàn trên điện thoại màn hình nhỏ) -->
+                    <div class="absolute -bottom-6 -right-4 sm:-right-8 md:-right-12 bg-gray-900 rounded-lg p-3 shadow-2xl z-30 border border-gray-700 w-48 sm:w-56 transform rotate-[5deg] hover:rotate-0 transition-all duration-300 cursor-pointer text-left hidden sm:block">
+                        <div class="flex space-x-1.5 mb-2">
+                            <div class="w-2.5 h-2.5 rounded-full bg-red-500"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-yellow-500"></div>
+                            <div class="w-2.5 h-2.5 rounded-full bg-green-500"></div>
+                        </div>
+                        <div class="font-mono text-[10px] sm:text-xs text-green-400">
+                            <p>> docker run -d nginx</p>
+                            <p class="text-gray-400">Starting container...</p>
+                            <p class="text-blue-400 mt-1">> System is <span class="text-emerald-400">Online_</span></p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            </div> <!-- Kết thúc max-w-7xl wrapper mới thêm -->
+        </section>
+
+        <!-- ================= PAGE 2: HỌC VẤN & KỸ NĂNG ================= -->
+        <section id="resume" class="page-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 mt-8">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Học Vấn & Kỹ Năng</h2>
+                <div class="w-16 h-1 bg-primary mx-auto rounded-full mt-4"></div>
+            </div>
+
+            <!-- Scroll Kỹ năng (Marquee) -->
+            <div class="mb-16 overflow-hidden relative">
+                <h3 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200"><i class="fa-solid fa-microchip text-primary mr-2"></i> Công Nghệ Cốt Lõi</h3>
+                
+                <!-- Hàng 1 (Chạy qua trái) -->
+                <div class="flex w-[200%] animate-marquee-left mb-4">
+                    <div class="flex w-1/2 justify-around items-center">
+                        <span class="tech-badge"><i class="fa-brands fa-linux mr-2"></i> Linux</span>
+                        <span class="tech-badge"><i class="fa-brands fa-ubuntu mr-2"></i> Ubuntu</span>
+                        <span class="tech-badge"><i class="fa-brands fa-redhat mr-2"></i> CentOS</span>
+                        <span class="tech-badge"><i class="fa-brands fa-windows mr-2"></i> Windows Server</span>
+                        <span class="tech-badge"><i class="fa-solid fa-server mr-2"></i> VMware</span>
+                        <span class="tech-badge"><i class="fa-solid fa-box mr-2"></i> VirtualBox</span>
+                        <span class="tech-badge"><i class="fa-brands fa-docker mr-2"></i> Docker</span>
+                        <span class="tech-badge"><i class="fa-brands fa-aws mr-2"></i> AWS</span>
+                    </div>
+                    <!-- Nhân bản để lặp mượt -->
+                    <div class="flex w-1/2 justify-around items-center">
+                        <span class="tech-badge"><i class="fa-brands fa-linux mr-2"></i> Linux</span>
+                        <span class="tech-badge"><i class="fa-brands fa-ubuntu mr-2"></i> Ubuntu</span>
+                        <span class="tech-badge"><i class="fa-brands fa-redhat mr-2"></i> CentOS</span>
+                        <span class="tech-badge"><i class="fa-brands fa-windows mr-2"></i> Windows Server</span>
+                        <span class="tech-badge"><i class="fa-solid fa-server mr-2"></i> VMware</span>
+                        <span class="tech-badge"><i class="fa-solid fa-box mr-2"></i> VirtualBox</span>
+                        <span class="tech-badge"><i class="fa-brands fa-docker mr-2"></i> Docker</span>
+                        <span class="tech-badge"><i class="fa-brands fa-aws mr-2"></i> AWS</span>
+                    </div>
+                </div>
+
+                <!-- Hàng 2 (Chạy qua phải) -->
+                <div class="flex w-[200%] animate-marquee-right">
+                    <div class="flex w-1/2 justify-around items-center">
+                        <span class="tech-badge"><i class="fa-brands fa-php mr-2"></i> PHP</span>
+                        <span class="tech-badge"><i class="fa-brands fa-laravel mr-2"></i> Laravel</span>
+                        <span class="tech-badge"><i class="fa-brands fa-js mr-2"></i> JavaScript</span>
+                        <span class="tech-badge"><i class="fa-solid fa-code mr-2"></i> jQuery/Ajax</span>
+                        <span class="tech-badge"><i class="fa-solid fa-wind mr-2"></i> Tailwind CSS</span>
+                        <span class="tech-badge"><i class="fa-brands fa-bootstrap mr-2"></i> Bootstrap</span>
+                        <span class="tech-badge"><i class="fa-brands fa-git-alt mr-2"></i> Git/GitHub</span>
+                        <span class="tech-badge"><i class="fa-solid fa-network-wired mr-2"></i> REST API</span>
+                    </div>
+                    <!-- Nhân bản để lặp mượt -->
+                    <div class="flex w-1/2 justify-around items-center">
+                        <span class="tech-badge"><i class="fa-brands fa-php mr-2"></i> PHP</span>
+                        <span class="tech-badge"><i class="fa-brands fa-laravel mr-2"></i> Laravel</span>
+                        <span class="tech-badge"><i class="fa-brands fa-js mr-2"></i> JavaScript</span>
+                        <span class="tech-badge"><i class="fa-solid fa-code mr-2"></i> jQuery/Ajax</span>
+                        <span class="tech-badge"><i class="fa-solid fa-wind mr-2"></i> Tailwind CSS</span>
+                        <span class="tech-badge"><i class="fa-brands fa-bootstrap mr-2"></i> Bootstrap</span>
+                        <span class="tech-badge"><i class="fa-brands fa-git-alt mr-2"></i> Git/GitHub</span>
+                        <span class="tech-badge"><i class="fa-solid fa-network-wired mr-2"></i> REST API</span>
+                    </div>
+                </div>
+                
+                <style>
+                    .tech-badge {
+                        @apply px-4 py-3 bg-white dark:bg-darkcard border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm font-medium text-gray-700 dark:text-gray-300 flex items-center min-w-[150px] justify-center;
+                    }
+                </style>
+            </div>
+
+            <!-- Học vấn & Hoạt động (Dạng lưới 2 cột) -->
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Cột Học Vấn -->
+                <div class="bg-white dark:bg-darkcard p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800">
+                    <h3 class="text-xl font-semibold mb-6 text-gray-900 dark:text-white border-b pb-2 dark:border-gray-700">
+                        <i class="fa-solid fa-graduation-cap text-primary mr-2"></i> Học Vấn
+                    </h3>
+                    <div class="relative pl-6 border-l-2 border-primary/30 space-y-6">
+                        <div class="relative">
+                            <div class="absolute -left-[31px] bg-primary h-4 w-4 rounded-full border-4 border-white dark:border-darkcard"></div>
+                            <h4 class="font-bold text-lg text-gray-900 dark:text-white">Học viện Hàng không Việt Nam (VAA)</h4>
+                            <p class="text-primary font-medium text-sm mb-1">2024 - Nay (Sinh viên Năm 3)</p>
+                            <p class="text-gray-600 dark:text-gray-400">Khoa Công nghệ Thông tin – Hệ chính quy</p>
+                            <ul class="list-disc list-inside mt-2 text-sm text-gray-600 dark:text-gray-400">
+                                <li>GPA: 3.2 / 4.0</li>
+                                <li>Học bổng Khá năm 2024</li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <h3 class="text-xl font-semibold mb-6 mt-10 text-gray-900 dark:text-white border-b pb-2 dark:border-gray-700">
+                        <i class="fa-solid fa-screwdriver-wrench text-primary mr-2"></i> Phần Cứng & Khác
+                    </h3>
+                    <ul class="space-y-3 text-gray-600 dark:text-gray-400">
+                        <li><i class="fa-solid fa-check text-primary mr-2"></i> <b>Phần cứng:</b> Lắp ráp & nâng cấp máy tính (HDD, SSD, CPU, RAM, NIC).</li>
+                        <li><i class="fa-solid fa-check text-primary mr-2"></i> <b>Nghiên cứu:</b> Smart Home / IoT.</li>
+                        <li><i class="fa-solid fa-check text-primary mr-2"></i> <b>Ngoại ngữ:</b> Tiếng Anh B1.</li>
+                    </ul>
+                </div>
+
+                <!-- Cột Hoạt Động -->
+                <div class="bg-white dark:bg-darkcard p-6 rounded-xl shadow-sm border border-gray-100 dark:border-gray-800">
+                    <h3 class="text-xl font-semibold mb-6 text-gray-900 dark:text-white border-b pb-2 dark:border-gray-700">
+                        <i class="fa-solid fa-users text-primary mr-2"></i> Hoạt Động & Thành Tích
+                    </h3>
+                    <div class="space-y-5 text-gray-600 dark:text-gray-400">
+                        <div class="flex gap-4">
+                            <div class="mt-1"><i class="fa-brands fa-aws text-2xl text-orange-500"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white">AWS FCJ Elite Member</h4>
+                                <p class="text-sm">First Cloud Journey – Cộng đồng Cloud hàng đầu VN (2024 – nay)</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="mt-1"><i class="fa-solid fa-award text-2xl text-yellow-500"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white">Học bổng Khá</h4>
+                                <p class="text-sm">Học viện Hàng không Việt Nam (Năm học 2024)</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="mt-1"><i class="fa-solid fa-user-tie text-2xl text-blue-500"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white">Ủy viên BCH Đoàn Khoa CNTT</h4>
+                                <p class="text-sm">Học viện Hàng không Việt Nam (2024 – nay)</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="mt-1"><i class="fa-solid fa-chalkboard-user text-2xl text-green-500"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white">Lớp trưởng</h4>
+                                <p class="text-sm">Lớp CNTT – Khoa Công nghệ Thông tin (2024 – nay)</p>
+                            </div>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="mt-1"><i class="fa-solid fa-handshake text-2xl text-purple-500"></i></div>
+                            <div>
+                                <h4 class="font-bold text-gray-900 dark:text-white">Thành viên Ban Đối ngoại HSV</h4>
+                                <p class="text-sm">Hội Sinh viên - Học viện Hàng không Việt Nam (2024 – nay)</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 3: DỰ ÁN ================= -->
+        <section id="projects" class="page-section max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12 mt-8">
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white">Dự Án Tiêu Biểu</h2>
+                <div class="w-16 h-1 bg-primary mx-auto rounded-full mt-4"></div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-8">
+                <!-- Dự án 1 -->
+                <div class="bg-white dark:bg-darkcard rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-800 flex flex-col">
+                    <div class="p-6 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white">Web Quản lý Ký túc xá</h3>
+                            <span class="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-1 rounded">Đồ án cơ sở</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                            Xây dựng hệ thống quản lý phòng, sinh viên, thanh toán. Tích hợp giao diện responsive, tương tác động qua jQuery/Ajax.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 text-xs font-medium text-blue-600 bg-blue-100 rounded dark:bg-blue-900/30 dark:text-blue-300">PHP thuần</span>
+                            <span class="px-2 py-1 text-xs font-medium text-yellow-600 bg-yellow-100 rounded dark:bg-yellow-900/30 dark:text-yellow-300">jQuery/Ajax</span>
+                            <span class="px-2 py-1 text-xs font-medium text-teal-600 bg-teal-100 rounded dark:bg-teal-900/30 dark:text-teal-300">Tailwind</span>
+                            <span class="px-2 py-1 text-xs font-medium text-purple-600 bg-purple-100 rounded dark:bg-purple-900/30 dark:text-purple-300">Bootstrap</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dự án 2 -->
+                <div class="bg-white dark:bg-darkcard rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-800 flex flex-col">
+                    <div class="p-6 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white">Web Bán Tên Miền</h3>
+                            <span class="text-xs bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-300 px-2 py-1 rounded">Đồ án chuyên ngành</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                            Refactor hoàn toàn từ PHP thuần sang Laravel framework (MVC). Đóng gói ứng dụng bằng Docker, tích hợp REST API và triển khai trên Linux web server.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 text-xs font-medium text-red-600 bg-red-100 rounded dark:bg-red-900/30 dark:text-red-300">Laravel</span>
+                            <span class="px-2 py-1 text-xs font-medium text-blue-600 bg-blue-100 rounded dark:bg-blue-900/30 dark:text-blue-300">Docker</span>
+                            <span class="px-2 py-1 text-xs font-medium text-green-600 bg-green-100 rounded dark:bg-green-900/30 dark:text-green-300">REST API</span>
+                            <span class="px-2 py-1 text-xs font-medium text-gray-600 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-300">Linux Server</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dự án 3 -->
+                <div class="bg-white dark:bg-darkcard rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-800 flex flex-col">
+                    <div class="p-6 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white">vtkt.online</h3>
+                            <span class="text-xs bg-primary/20 text-primary px-2 py-1 rounded">Dự án Cá nhân</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                            Website cá nhân tự vận hành. Tự thuê hosting, cấu hình và quản lý toàn bộ hệ thống web server trên Linux. Quản lý tên miền, SSL và triển khai liên tục.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 text-xs font-medium text-gray-800 bg-gray-200 rounded dark:bg-gray-700 dark:text-gray-200">Linux</span>
+                            <span class="px-2 py-1 text-xs font-medium text-indigo-600 bg-indigo-100 rounded dark:bg-indigo-900/30 dark:text-indigo-300">Web Server</span>
+                            <span class="px-2 py-1 text-xs font-medium text-pink-600 bg-pink-100 rounded dark:bg-pink-900/30 dark:text-pink-300">Domain/SSL</span>
+                        </div>
+                        <div class="mt-auto pt-4 border-t border-gray-100 dark:border-gray-700">
+                            <a href="https://vtkt.online" target="_blank" class="text-primary hover:text-emerald-600 text-sm font-medium"><i class="fa-solid fa-link mr-1"></i> Truy cập vtkt.online</a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dự án 4 -->
+                <div class="bg-white dark:bg-darkcard rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-100 dark:border-gray-800 flex flex-col">
+                    <div class="p-6 flex-grow">
+                        <div class="flex justify-between items-start mb-4">
+                            <h3 class="text-xl font-bold text-gray-900 dark:text-white">Smart Home (IoT)</h3>
+                            <span class="text-xs bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300 px-2 py-1 rounded">Đang triển khai</span>
+                        </div>
+                        <p class="text-gray-600 dark:text-gray-400 mb-4 text-sm">
+                            Nghiên cứu khoa học 2026: Nghiên cứu và phát triển hệ thống nhà thông minh tích hợp điều khiển tự động hóa qua Internet of Things.
+                        </p>
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            <span class="px-2 py-1 text-xs font-medium text-orange-600 bg-orange-100 rounded dark:bg-orange-900/30 dark:text-orange-300">IoT</span>
+                            <span class="px-2 py-1 text-xs font-medium text-blue-600 bg-blue-100 rounded dark:bg-blue-900/30 dark:text-blue-300">Embedded Systems</span>
+                            <span class="px-2 py-1 text-xs font-medium text-green-600 bg-green-100 rounded dark:bg-green-900/30 dark:text-green-300">Automation</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ================= PAGE 4: LIÊN HỆ ================= -->
+        <section id="contact" class="page-section max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 mt-12">
+            <div class="bg-white dark:bg-darkcard rounded-2xl shadow-lg border border-gray-100 dark:border-gray-800 p-8 md:p-12 text-center">
+                <div class="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6">
+                    <i class="fa-regular fa-handshake text-4xl text-primary"></i>
+                </div>
+                <h2 class="text-3xl font-bold text-gray-900 dark:text-white mb-4">Sẵn Sàng Làm Việc</h2>
+                <p class="text-gray-600 dark:text-gray-400 mb-8 max-w-lg mx-auto">
+                    Tôi đang tìm kiếm cơ hội thực tập/làm việc ở vị trí <b>Junior Cloud & DevOps Engineer</b>. Nếu bạn thấy hồ sơ của tôi phù hợp, hãy liên hệ với tôi qua các kênh dưới đây!
+                </p>
+
+                <div class="grid sm:grid-cols-2 gap-4 mb-8">
+                    <a href="mailto:thanhvuaws@gmail.com" class="flex items-center justify-center p-4 rounded-xl bg-gray-50 dark:bg-darkbg hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors group">
+                        <i class="fa-solid fa-envelope text-2xl text-gray-400 group-hover:text-primary mb-2 mr-3"></i>
+                        <div class="text-left">
+                            <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Email</p>
+                            <p class="text-gray-900 dark:text-white font-medium">thanhvuaws@gmail.com</p>
+                        </div>
+                    </a>
+                    <a href="tel:+84856761038" class="flex items-center justify-center p-4 rounded-xl bg-gray-50 dark:bg-darkbg hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors group">
+                        <i class="fa-solid fa-phone text-2xl text-gray-400 group-hover:text-primary mb-2 mr-3"></i>
+                        <div class="text-left">
+                            <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Điện thoại</p>
+                            <p class="text-gray-900 dark:text-white font-medium">0856 761 038</p>
+                        </div>
+                    </a>
+                    <a href="https://github.com/thanhvuaws-jpg" target="_blank" class="flex items-center justify-center p-4 rounded-xl bg-gray-50 dark:bg-darkbg hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors group">
+                        <i class="fa-brands fa-github text-2xl text-gray-400 group-hover:text-primary mb-2 mr-3"></i>
+                        <div class="text-left">
+                            <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">GitHub</p>
+                            <p class="text-gray-900 dark:text-white font-medium">/thanhvuaws-jpg</p>
+                        </div>
+                    </a>
+                    <a href="https://maps.app.goo.gl/wJk6q4PzS8n6jV1E6" target="_blank" class="flex items-center justify-center p-4 rounded-xl bg-gray-50 dark:bg-darkbg hover:bg-primary/10 dark:hover:bg-primary/20 transition-colors group">
+                        <i class="fa-solid fa-location-dot text-2xl text-gray-400 group-hover:text-primary mb-2 mr-3"></i>
+                        <div class="text-left">
+                            <p class="text-xs text-gray-500 uppercase tracking-wider font-semibold">Địa chỉ</p>
+                            <p class="text-gray-900 dark:text-white font-medium">TP. Hồ Chí Minh</p>
+                        </div>
+                    </a>
+                </div>
+
+                <a href="https://vtkt.online" target="_blank" class="inline-block bg-primary hover:bg-emerald-600 text-white font-semibold px-8 py-3 rounded-lg shadow-lg shadow-emerald-500/30 transition-all">
+                    Truy cập vtkt.online
+                </a>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Logic Javascript điều khiển SPA (Single Page Application) và Darkmode -->
+    <script>
+        // Xử lý chuyển trang bằng Hash (SPA Router an toàn cho SEO/GitHub Pages)
+        function handleRouting() {
+            // Lấy hash hiện tại (vd: #projects), nếu không có thì mặc định là 'home'
+            let hash = window.location.hash.substring(1) || 'home';
+            
+            // Kiểm tra xem section có tồn tại không
+            const targetSection = document.getElementById(hash);
+            if (!targetSection) hash = 'home';
+
+            // Ẩn tất cả section
+            document.querySelectorAll('.page-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            // Hiện section được chọn
+            document.getElementById(hash).classList.add('active');
+
+            // Cập nhật trạng thái nút menu
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                // Đặt lại màu mặc định
+                btn.classList.remove('text-primary');
+                btn.classList.add('text-gray-600', 'dark:text-gray-300');
+                
+                // Active nút có data-target trùng với hash
+                if (btn.getAttribute('data-target') === hash) {
+                    btn.classList.remove('text-gray-600', 'dark:text-gray-300');
+                    btn.classList.add('text-primary');
+                }
+            });
+
+            // Cuộn lên đầu trang mỗi lần chuyển tab
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Lắng nghe sự kiện đổi hash trên trình duyệt
+        window.addEventListener('hashchange', handleRouting);
+
+        // Hiệu ứng gõ chữ (Typing Effect)
+        function initTyping() {
+            const textToType = 'Junior Cloud / DevOps Engineer';
+            const typingElement = document.getElementById("typing-text");
+            let typeIndex = 0;
+            
+            function typeWriter() {
+                if (typingElement && typeIndex < textToType.length) {
+                    typingElement.innerHTML += textToType.charAt(typeIndex);
+                    typeIndex++;
+                    setTimeout(typeWriter, 50); // Tốc độ gõ (ms)
+                }
+            }
+            // Reset chuỗi để chạy lại hiệu ứng mỗi lần chuyển về Trang Chủ
+            if (typingElement) {
+                typingElement.innerHTML = '';
+                setTimeout(typeWriter, 800); // Đợi fade-in xong mới gõ
+            }
+        }
+
+        // Chạy lần đầu khi load trang
+        window.addEventListener('DOMContentLoaded', () => {
+            handleRouting();
+            initTyping();
+        });
+
+        function toggleMobileMenu() {
+            document.getElementById('mobile-menu').classList.add('hidden');
+        }
+
+        // --- Xử lý Dark / Light Mode ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const darkIcon = document.getElementById('theme-toggle-dark-icon');
+        const lightIcon = document.getElementById('theme-toggle-light-icon');
+
+        if (localStorage.getItem('color-theme') === 'dark' || (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            lightIcon.classList.remove('hidden');
+            document.documentElement.classList.add('dark');
+        } else {
+            darkIcon.classList.remove('hidden');
+            document.documentElement.classList.remove('dark');
+        }
+
+        themeToggleBtn.addEventListener('click', function() {
+            darkIcon.classList.toggle('hidden');
+            lightIcon.classList.toggle('hidden');
+
+            if (localStorage.getItem('color-theme')) {
+                if (localStorage.getItem('color-theme') === 'light') {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                } else {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                }
+            } else {
+                if (document.documentElement.classList.contains('dark')) {
+                    document.documentElement.classList.remove('dark');
+                    localStorage.setItem('color-theme', 'light');
+                } else {
+                    document.documentElement.classList.add('dark');
+                    localStorage.setItem('color-theme', 'dark');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
