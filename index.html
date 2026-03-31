@@ -237,8 +237,8 @@
                 <h3 class="text-xl font-semibold mb-6 text-gray-800 dark:text-gray-200"><i class="fa-solid fa-microchip text-primary mr-2"></i> Công Nghệ Cốt Lõi</h3>
                 
                 <!-- Hàng 1 (Chạy qua trái) -->
-                <div class="flex w-[200%] animate-marquee-left mb-4">
-                    <div class="flex w-1/2 justify-around items-center">
+                <div class="flex w-max animate-marquee-left mb-4">
+                    <div class="flex shrink-0 gap-4 pr-4 items-center">
                         <span class="tech-badge"><i class="fa-brands fa-linux mr-2"></i> Linux</span>
                         <span class="tech-badge"><i class="fa-brands fa-ubuntu mr-2"></i> Ubuntu</span>
                         <span class="tech-badge"><i class="fa-brands fa-redhat mr-2"></i> CentOS</span>
@@ -249,7 +249,7 @@
                         <span class="tech-badge"><i class="fa-brands fa-aws mr-2"></i> AWS</span>
                     </div>
                     <!-- Nhân bản để lặp mượt -->
-                    <div class="flex w-1/2 justify-around items-center">
+                    <div class="flex shrink-0 gap-4 pr-4 items-center">
                         <span class="tech-badge"><i class="fa-brands fa-linux mr-2"></i> Linux</span>
                         <span class="tech-badge"><i class="fa-brands fa-ubuntu mr-2"></i> Ubuntu</span>
                         <span class="tech-badge"><i class="fa-brands fa-redhat mr-2"></i> CentOS</span>
@@ -262,8 +262,8 @@
                 </div>
 
                 <!-- Hàng 2 (Chạy qua phải) -->
-                <div class="flex w-[200%] animate-marquee-right">
-                    <div class="flex w-1/2 justify-around items-center">
+                <div class="flex w-max animate-marquee-right">
+                    <div class="flex shrink-0 gap-4 pr-4 items-center">
                         <span class="tech-badge"><i class="fa-brands fa-php mr-2"></i> PHP</span>
                         <span class="tech-badge"><i class="fa-brands fa-laravel mr-2"></i> Laravel</span>
                         <span class="tech-badge"><i class="fa-brands fa-js mr-2"></i> JavaScript</span>
@@ -274,7 +274,7 @@
                         <span class="tech-badge"><i class="fa-solid fa-network-wired mr-2"></i> REST API</span>
                     </div>
                     <!-- Nhân bản để lặp mượt -->
-                    <div class="flex w-1/2 justify-around items-center">
+                    <div class="flex shrink-0 gap-4 pr-4 items-center">
                         <span class="tech-badge"><i class="fa-brands fa-php mr-2"></i> PHP</span>
                         <span class="tech-badge"><i class="fa-brands fa-laravel mr-2"></i> Laravel</span>
                         <span class="tech-badge"><i class="fa-brands fa-js mr-2"></i> JavaScript</span>
@@ -288,7 +288,7 @@
                 
                 <style>
                     .tech-badge {
-                        @apply px-4 py-3 bg-white dark:bg-darkcard border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm font-medium text-gray-700 dark:text-gray-300 flex items-center min-w-[150px] justify-center;
+                        @apply px-4 py-3 bg-white dark:bg-darkcard border border-gray-200 dark:border-gray-700 rounded-lg shadow-sm font-medium text-gray-700 dark:text-gray-300 flex items-center min-w-[150px] justify-center whitespace-nowrap overflow-hidden shrink-0;
                     }
                 </style>
             </div>
